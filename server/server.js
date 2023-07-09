@@ -1,0 +1,13 @@
+const express = require('express');
+const app =  express();
+require('dotenv').config();
+const dbConfig = require('./config/dbConfig');
+app.use(express.json());
+
+const usersRoute = require('./routes/useresRoute');
+
+app.use('/api/users', usersRoute);
+
+const port = process.env.port || 5000;
+
+app.listen(port, () => console.log(`server listening on port ${port}`));
