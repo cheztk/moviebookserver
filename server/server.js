@@ -5,9 +5,13 @@ const dbConfig = require('./config/dbConfig');
 app.use(express.json());
 
 const usersRoute = require('./routes/useresRoute');
+const moviesRoute = require('./routes/moviesRoute');
+const theatreRoute = require('./routes/theatresRoute');
 
 app.use('/api/users', usersRoute);
+app.use('/api/movies', moviesRoute);
+app.use('/api/theatres',theatreRoute );    
 
-const port = process.env.port || 5000;
+const port = process.env.port || 5500;
 
 app.listen(port, () => console.log(`server listening on port ${port}`));
