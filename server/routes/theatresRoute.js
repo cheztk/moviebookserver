@@ -2,6 +2,8 @@ const router = require("express").Router();
 const authMiddleware = require("../middlewares/authMiddleware");
 const Theatre = require("../models/theatreModel");
 const Show = require("../models/showModel");
+const moment = require('moment');
+
 
 // add theatre
 router.post("/add-theatre", authMiddleware, async (req, res) => {
@@ -91,7 +93,14 @@ router.post("/delete-theatre", authMiddleware, async (req, res) => {
 // add show
 router.post("/add-show", authMiddleware, async (req, res) => {
   try {
-    const newShow = new Show(req.body);
+   
+    const a = {...req.body, 
+      date: moment(req.body.date).format("YYYY-MM-DD"),
+      time: moment(req.body.time).format("HH:mm"),
+    };
+  
+    console.log(a);
+    const newShow = new Show(a);
     await newShow.save();
     res.send({
       success: true,
@@ -144,10 +153,11 @@ router.post("/delete-show", authMiddleware, async (req, res) => {
 });
 
 // get all unique theatres which have shows of a movie
+// get all unique theatres which have shows of a movie
 router.post("/get-all-theatres-by-movie", authMiddleware, async (req, res) => {
   try {
     const { movie, date } = req.body;
-
+    console.log(date);
     // find all shows of a movie
     const shows = await Show.find({ movie, date })
       .populate("theatre")
